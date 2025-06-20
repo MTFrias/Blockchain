@@ -70,37 +70,64 @@ Função de Hash
 
 '''
 
-def hash_(mensagem):
+def simple_hash(text: str, bucket_size: int) -> int:
     """
-        Para cada letra da mensagem:
+    Calcula um hash simples e didático para uma string de texto.
 
-        pega no seu valor numérico (com ord)
-
-        multiplica por uma potência de um número primo
-
-         soma tudo
+    O objetivo é mapear o texto para um número inteiro dentro de um intervalo
+    definido por 'bucket_size'.
 
     Args:
-        mensagem (str): A mensagem a ser transformada em hash.
+        text: O texto de entrada para gerar o hash.
+        bucket_size: O número de "gavetas" ou "buckets" disponíveis.
+                     O hash final será um número entre 0 e bucket_size - 1.
 
     Returns:
-        int: Valor hash da mensagem.
+        Um número inteiro que representa o hash do texto.
     """
-    hash_valor = 0
-    primo = 31  # número primo para espalhar os valores
+    # 1. Começamos com um valor inicial para o nosso hash, geralmente 0.
+    hash_value = 0
+    
+    # Usar um número primo ajuda a distribuir melhor os valores do hash,
+    # evitando colisões simples. 31 é uma escolha comum e eficiente.
+    prime_number = 31
 
-    for i, caractere in enumerate(mensagem): # ciclo que passa por cada letra da mensagem uma por uma.
-        # ord(caractere) dá o código numérico do caractere (A função ord() converte o caractere em número, usando a tabela Unicode. ord('A') -> 65)
-        hash_valor += (ord(caractere) * (primo ** i)) # multiplicar cada código de letra por uma potência de um número primo (neste caso, 31) (Para a letra na posição 0, usamos 31^0 = 1 Para a posição 1, usamos 31^1 = 31 Para a posição 2, usamos 31^2 = 961)
+    # 2. Percorremos cada caracter do texto de entrada.
+    for char in text:
+        # 3. Convertemos o caracter para o seu valor numérico (padrão ASCII/Unicode).
+        # Ex: ord('A') -> 65, ord('B') -> 66
+        char_code = ord(char)
+        
+        # 4. Esta é a "magia". Combinamos o valor atual do hash com o novo caracter.
+        # A multiplicação pelo número primo garante que a posição de cada caracter
+        # importa. "abc" terá um hash diferente de "cba".
+        hash_value = (hash_value * prime_number + char_code)
 
-    # Reduzir o resultado para um intervalo (por exemplo 0 a 99999)
-    hash_valor = hash_valor % 100000 #("garantir que o valor final do hash não cresce indefinidamente e fica sempre dentro de um intervalo fixo de valores.")
- 
-    return hash_valor
+    # 5. Finalmente, usamos o operador módulo (%) para garantir que o resultado
+    # final esteja dentro do nosso intervalo de "gavetas" (de 0 a bucket_size - 1).
+    final_hash = hash_value % bucket_size
+    
+    return final_hash
 
-# Exemplo de uso
-mensagem_original = "Ola mundo"
-hash_resultado = hash(mensagem_original)
+# --- Exemplo de Uso ---
 
-print(f"Mensagem original: {mensagem_original}")
-print(f"Hash (mais simples...): {hash_resultado}")
+# Imagine que temos uma tabela com 100 posições (gavetas) para armazenar dados.
+# Queremos saber em qual gaveta cada texto deve ser guardado.
+NUM_GAVETAS = 100
+
+texto1 = "ola mundo"
+texto2 = "mundo ola"
+texto3 = "applied_cryptology_project"
+
+hash1 = simple_hash(texto1, NUM_GAVETAS)
+hash2 = simple_hash(texto2, NUM_GAVETAS)
+hash3 = simple_hash(texto3, NUM_GAVETAS)
+
+print(f"O texto '{texto1}' tem o hash: {hash1}")
+print(f"O texto '{texto2}' tem o hash: {hash2}")
+print(f"O texto '{texto3}' tem o hash: {hash3}")
+
+# Exemplo de como uma pequena mudança no texto muda drasticamente o hash (efeito avalanche)
+texto4 = "applied_cryptology_projeCt" # Apenas um 'C' maiúsculo
+hash4 = simple_hash(texto4, NUM_GAVETAS)
+print(f"O texto '{texto4}' tem o hash: {hash4}")
