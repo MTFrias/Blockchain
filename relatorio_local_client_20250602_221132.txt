@@ -1,0 +1,39 @@
+RELATÓRIO TCP (CÓPIA LOCAL)
+========================================
+Componente: CLIENT
+Data/Hora: 2025-06-02 22:11:32
+Modo: Local (servidor indisponível)
+========================================
+============================================================
+PARÂMETROS TCP - VPN CLIENT
+============================================================
+INFORMAÇÕES DA CONEXÃO:
+  Estado: Conectado
+  Endereço local: localhost:56088
+  Endereço remoto: localhost:7001
+  Tempo ativo: 02:26
+  Conexão atual: 02:26
+
+ESTATÍSTICAS DE TRÁFEGO:
+  Bytes enviados: 106 B
+  Bytes recebidos: 445 B
+  Mensagens enviadas: 1
+  Mensagens recebidas: 2
+  Mensagens com erro: 0
+  Conexões estabelecidas: 1
+
+MÉTRICAS DE PERFORMANCE:
+  Throughput envio: 0.0 B/s
+  Throughput recepção: 0.0 B/s
+  Latência média: 0.0 ms
+  Taxa de sucesso: 100.0%
+
+PARÂMETROS TCP:
+  Window Size: 64.0 KB
+  Buffer envio: 64.0 KB
+  Buffer recepção: 64.0 KB
+  Keep Alive: Inativo
+  TCP No Delay: Inativo
+============================================================
+
+Relatório gerado localmente pelo Gestor VPN

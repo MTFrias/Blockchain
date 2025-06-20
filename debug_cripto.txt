@@ -1,0 +1,20 @@
+[22:17:25] VPN CLIENT: Recebida mensagem UDP: 'Olá mundo!!!' - Texto claro: True
+[22:17:25] VPN CLIENT: Enviando via TCP sem criptografia
+[22:17:25] VPN CLIENT: Pacote TCP enviado para VPN Server (128 bytes)
+[22:17:25] VPN SERVER: Pacote TCP recebido do VPN Client
+[22:17:25] VPN SERVER: Mensagem texto claro: 'Olá mundo!!!'
+[22:17:25] VPN SERVER: Encaminhando para ProgUDP2: '[TEXTO_CLARO]Olá mundo!!!'
+[22:17:25] PROG UDP2: Mensagem recebida: '[TEXTO_CLARO]Olá mundo!!!'
+[22:18:08] VPN CLIENT: Recebida mensagem UDP: 'Projeto de Criptografia Aplicada' - Texto claro: False
+[22:18:08] Cifrando com VIGENERE: 'Projeto de Criptografia Aplicada'
+[22:18:08] VIGENERE: Nonce gerado: 4292133250
+[22:18:08] VIGENERE: Chave dinâmica: 'JsR}M"jUa(...' para texto: Projeto de Criptografia Aplicada
+[22:18:08] VPN CLIENT: Mensagem criptografada com VIGENERE: 'zfBh3vZUFm%c:$)kr@qes~h"t}G20]75' nonce: 4292133250
+[22:18:08] VPN CLIENT: Pacote TCP enviado para VPN Server (375 bytes)
+[22:18:08] VPN SERVER: Pacote TCP recebido do VPN Client
+[22:18:08] VPN SERVER: Mensagem criptografada recebida com VIGENERE: 'zfBh3vZUFm%c:$)kr@qes~h"t}G20]75' nonce: 4292133250
+[22:18:08] Decifrando com VIGENERE: 'zfBh3vZUFm%c:$)kr@qes~h"t}G20]75' nonce: 4292133250
+[22:18:08] VIGENERE: Decifrando com chave: 'JsR}M"jUa(...' e nonce: 4292133250
+[22:18:08] VPN SERVER: Mensagem decifrada: 'Projeto de Criptografia Aplicada'
+[22:18:08] VPN SERVER: Encaminhando para ProgUDP2: 'Projeto de Criptografia Aplicada'
+[22:18:08] PROG UDP2: Mensagem recebida: 'Projeto de Criptografia Aplicada'

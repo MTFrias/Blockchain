@@ -1,0 +1,7 @@
+# Ficheiro de utilizadores VPN (armazenado no servidor)
+# Formato: username|password_hash|role|data_criacao
+# Roles: utilizador, administrador
+
+admin|240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9|administrador|2025-05-31 08:34:27
+admin2|1c142b2d01aa34e9a36bde480645a57fd69e14155dacfab5a3f9257b77fdc8d8|utilizador|2025-05-31 08:55:01
+admin3|240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9|utilizador|2025-05-31 13:54:40
