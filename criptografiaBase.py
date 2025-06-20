@@ -1,133 +1,74 @@
-def cifra_cesar_ex(texto, deslocamento):
-    resultado = ""
-    print(f"\n--- Cifrar com deslocamento {deslocamento} ---")
-    for char in texto:
-        if char.isalpha():
-            base = ord('A') if char.isupper() else ord('a')
-            pos_inicial = ord(char) - base
-            pos_final = (pos_inicial + deslocamento) % 26
-            char_cifrado = chr(pos_final + base)
-            
-            print(f"Letra '{char}' -> posição {pos_inicial} -> posição cifrada {pos_final} -> letra '{char_cifrado}'")
-            
-            resultado += char_cifrado
+from dataclasses import dataclass
+from typing import Optional
+import time
+from criptografiaBase import simple_hash
+
+
+@dataclass
+class Block:
+    version: str
+    previous_hash: str
+    timestamp: float
+    hash: str
+    transactions: str
+    next_block: Optional['Block'] = None
+    previous_block: Optional['Block'] = None
+
+
+class SimpleBlockchain:
+    def __init__(self):
+        self.head: Optional[Block] = None  # Primeiro bloco
+        self.tail: Optional[Block] = None  # Último bloco
+        self.size: int = 0
+    
+    def add_block(self, transactions: str):
+        """Adiciona um novo bloco"""
+        # Se é o primeiro bloco
+        if self.head is None:
+            previous_hash = "0"
         else:
-            print(f"Caracter '{char}' não é letra -> mantido igual")
-            resultado += char
-    return resultado
-
-def decifra_cesar_pf(texto_cifrado, deslocamento):
-    print(f"\n--- Decifrar com deslocamento {deslocamento} ---")
-    return cifra_cesar_ex(texto_cifrado, -deslocamento)
-
-# Exemplo
-mensagem = "Mensagem Secreta!"
-deslocamento = 2
-
-# Cifrar
-cifrada = cifra_cesar_ex(mensagem, deslocamento)
-print("\nTexto cifrado final:", cifrada)
-
-# Decifrar
-decifrada = decifra_cesar_pf(cifrada, deslocamento)
-print("\nTexto decifrado final:", decifrada)
-
-'''
-Diffie-Hellman
-'''
-# Parâmetros públicos (conhecidos por todos)
-p = 23  # número primo (p serve para "cortar" os resultados (resto da divisão por p, ou seja, (valor) % p).)
-g = 5   # gerador (número primitivo módulo p) (g é um número especial chamado gerador, usado para criar as chaves.)
-
-# Chave privada da Alice (secreta) 
-a = 6 # (Alice escolhe secretamente o número a = 6.)
-
-# Chave pública da Alice
-A = (g ** a) % p
-
-# Chave privada do Bob (secreta)
-b = 15 # ( Bob escolhe secretamente o número b = 15. )
-# Chave pública do Bob
-B = (g ** b) % p
-
-# Troca-se A e B publicamente.
-
-# Alice calcula a chave secreta (Depois de Alice receber B de Bob, ela calcula:)
-chave_secreta_alice = (B ** a) % p
-
-# Bob calcula a chave secreta (Bob faz o mesmo com A recebido de Alice:)
-chave_secreta_bob = (A ** b) % p
-
-# É garantido que ambas as contas vão dar exatamente o mesmo número! 
-
-# Ambas as chaves secretas devem ser iguais
-print(f"Chave secreta da Alice: {chave_secreta_alice}")
-print(f"Chave secreta do Bob:   {chave_secreta_bob}")
-print("\n\n")
-
-'''
-Função de Hash
-
-'''
-
-def simple_hash(text: str, bucket_size: int) -> int:
-    """
-    Calcula um hash simples e didático para uma string de texto.
-
-    O objetivo é mapear o texto para um número inteiro dentro de um intervalo
-    definido por 'bucket_size'.
-
-    Args:
-        text: O texto de entrada para gerar o hash.
-        bucket_size: O número de "gavetas" ou "buckets" disponíveis.
-                     O hash final será um número entre 0 e bucket_size - 1.
-
-    Returns:
-        Um número inteiro que representa o hash do texto.
-    """
-    # 1. Começamos com um valor inicial para o nosso hash, geralmente 0.
-    hash_value = 0
-    
-    # Usar um número primo ajuda a distribuir melhor os valores do hash,
-    # evitando colisões simples. 31 é uma escolha comum e eficiente.
-    prime_number = 31
-
-    # 2. Percorremos cada caracter do texto de entrada.
-    for char in text:
-        # 3. Convertemos o caracter para o seu valor numérico (padrão ASCII/Unicode).
-        # Ex: ord('A') -> 65, ord('B') -> 66
-        char_code = ord(char)
+            previous_hash = self.tail.hash
         
-        # 4. Esta é a "magia". Combinamos o valor atual do hash com o novo caracter.
-        # A multiplicação pelo número primo garante que a posição de cada caracter
-        # importa. "abc" terá um hash diferente de "cba".
-        hash_value = (hash_value * prime_number + char_code)
-
-    # 5. Finalmente, usamos o operador módulo (%) para garantir que o resultado
-    # final esteja dentro do nosso intervalo de "gavetas" (de 0 a bucket_size - 1).
-    final_hash = hash_value % bucket_size
+        # Calcular hash do novo bloco
+        data = f"1.0{previous_hash}{time.time()}{transactions}"
+        block_hash = str(simple_hash(data, 1000))
+        
+        # Criar novo bloco
+        new_block = Block(
+            version="1.0",
+            previous_hash=previous_hash,
+            timestamp=time.time(),
+            hash=block_hash,
+            transactions=transactions
+        )
+        
+        # Se é o primeiro bloco
+        if self.head is None:
+            self.head = new_block
+            self.tail = new_block
+        else:
+            # Ligar à lista
+            self.tail.next_block = new_block
+            new_block.previous_block = self.tail
+            self.tail = new_block
+        
+        self.size += 1
+        print(f"Bloco adicionado: {transactions}")
     
-    return final_hash
+    def mostrar_blockchain(self):
+        """Mostra todos os blocos"""
+        current = self.head
+        i = 0
+        while current:
+            print(f"\nBloco {i}:")
+            print(f"  Hash: {current.hash}")
+            print(f"  Transações: {current.transactions}")
+            current = current.next_block
+            i += 1
 
-# --- Exemplo de Uso ---
 
-# Imagine que temos uma tabela com 100 posições (gavetas) para armazenar dados.
-# Queremos saber em qual gaveta cada texto deve ser guardado.
-NUM_GAVETAS = 100
-
-texto1 = "ola mundo"
-texto2 = "mundo ola"
-texto3 = "applied_cryptology_project"
-
-hash1 = simple_hash(texto1, NUM_GAVETAS)
-hash2 = simple_hash(texto2, NUM_GAVETAS)
-hash3 = simple_hash(texto3, NUM_GAVETAS)
-
-print(f"O texto '{texto1}' tem o hash: {hash1}")
-print(f"O texto '{texto2}' tem o hash: {hash2}")
-print(f"O texto '{texto3}' tem o hash: {hash3}")
-
-# Exemplo de como uma pequena mudança no texto muda drasticamente o hash (efeito avalanche)
-texto4 = "applied_cryptology_projeCt" # Apenas um 'C' maiúsculo
-hash4 = simple_hash(texto4, NUM_GAVETAS)
-print(f"O texto '{texto4}' tem o hash: {hash4}")
+# Teste simples
+blockchain = SimpleBlockchain()
+blockchain.add_block("Alice envia 10 para Bob")
+blockchain.add_block("Bob envia 5 para Charlie")
+blockchain.mostrar_blockchain()
