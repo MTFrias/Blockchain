@@ -14,6 +14,12 @@ import socket
 import json
 import hashlib
 from datetime import datetime
+from blockchain import SimpleBlockchain ## Importar a classe para utilizar o block chain
+
+
+# instancia global de blockchin para podermos utilizar em todas as funções que seja necessario criar logs.
+log_blockchain = SimpleBlockchain()
+
 
 def input_password(prompt="Password: "):
     """Input de password que mostra asteriscos"""
@@ -470,7 +476,10 @@ class GestorPrincipal:
         
         print("="*60)
         print("GESTOR VPN - SISTEMA PRINCIPAL")
+        log_blockchain.add_block("Gestor de VPN inicidao")
+        print("LOG BLOCKCHAIN REGISTADO")
         print("="*60)
+
     
     def inicializar_comunicacao(self):
         try:
@@ -482,6 +491,7 @@ class GestorPrincipal:
             
         except Exception as e:
             raise Exception("Falha na inicialização da comunicação")
+         
     
     def fazer_login(self):
         print("\n" + "-"*30)
@@ -503,10 +513,22 @@ class GestorPrincipal:
                 if utilizador:
                     self.utilizador_atual = utilizador
                     print(f"\nLogin bem-sucedido! Bem-vindo, {username}")
+
+
+                    #log_blockchain
+                    log_data = f"LOGIN SUCESSO: Utilizador '{username}', Role: '{utilizador['role']}'"
+                    #self.log_blockchain.add_block(log_data)
+                    log_blockchain.add_block(log_data)
+
                     return True
                 else:
                     tentativas -= 1
                     print(f"Credenciais inválidas. Tentativas restantes: {tentativas}")
+                    
+                    
+                    log_data = f"LOGIN FALHA: Tentativa para o utilizador '{username}'"
+                    #self.log_blockchain.add_block(log_data)
+                    log_blockchain.add_block(log_data)
                     
             except KeyboardInterrupt:
                 print("\nLogin cancelado")
@@ -515,11 +537,15 @@ class GestorPrincipal:
                 tentativas -= 1
         
         print("Demasiadas tentativas falhadas")
+        log_blockchain.add_block("Demasiadas tentativas falhadas")
         return False
     
     def iniciar_sistema(self):
         if self.sistema_iniciado:
             print("Sistema já está iniciado")
+
+            #LOG blockchain
+            log_blockchain.add_block("SISTEMA: Componentes VPN iniciados com sucesso.")
             return True
         
         print("\nIniciando sistema VPN...")
@@ -527,9 +553,13 @@ class GestorPrincipal:
             self.sistema_iniciado = True
             self.inicializar_comunicacao()
             print("Sistema totalmente operacional")
+            log_blockchain.add_block("Sistema totalmente operacional")
             return True
         else:
             print("Falha ao iniciar sistema VPN")
+
+            #LOG blockchain 
+            log_blockchain.add_block("SISTEMA: Falha ao iniciar componentes VPN.")
             return False
     
     def parar_sistema(self):
@@ -564,6 +594,22 @@ class GestorPrincipal:
                 return "sair"
             else:
                 print("Opção inválida")
+
+    def mostrar_blockchain(self):
+        """Invoca a função de mostrar a blockchain e formata a saída."""
+        print("\n" + "="*80)
+        print("LOG DE EVENTOS DO SISTEMA (BLOCKCHAIN)")
+        print("="*80)
+        
+        # Chama a função já existente no seu objeto de blockchain
+        # que está em self.log_blockchain
+        log_blockchain.mostrar_blockchain()
+        
+        print("\n" + "="*80)
+        # Usando o atributo 'size' da sua classe SimpleBlockchain
+        print(f"Total de blocos: {log_blockchain.size}") 
+        print("="*80)
+        input("\nPressione Enter para continuar...")
     
     def menu_administrador(self):
         while True:
@@ -577,8 +623,9 @@ class GestorPrincipal:
             print("5. Configurações de criptografia")
             print("6. Consultar parâmetros TCP")
             print("7. Ver chaves Diffie-Hellman")
-            print("8. Logout")
-            print("9. Encerrar")
+            print("8. Mostrar Log de Eventos (Blockchain)")
+            print("9. Logout")
+            print("10. Encerrar")
             print("="*50)
             
             opcao = input("Opção: ").strip()
@@ -598,10 +645,12 @@ class GestorPrincipal:
             elif opcao == '7':
                 self.mostrar_chaves_diffie_hellman()
             elif opcao == '8':
+                self.mostrar_blockchain()    
+            elif opcao == '9':
                 print("Logout...")
                 self.utilizador_atual = None
                 return "logout"
-            elif opcao == '9':
+            elif opcao == '10':
                 return "sair"
             else:
                 print("Opção inválida")
@@ -661,10 +710,13 @@ class GestorPrincipal:
             opcao = input("Opção: ").strip()
             
             if opcao == '1':
+                log_blockchain.add_block("1. Alterar algoritmo")
                 self.alterar_algoritmo_criptografia()
             elif opcao == '2':
+                log_blockchain.add_block("2. Testar criptografia")
                 self.testar_criptografia()
             elif opcao == '3':
+                log_blockchain.add_block("3. Voltar")
                 break
             else:
                 print("Opção inválida")
@@ -676,15 +728,20 @@ class GestorPrincipal:
         escolha = input("Algoritmo (1-2): ").strip()
         
         if escolha == '1':
+            log_blockchain.add_block("Algoritmo alterado para o de cesar")
             algoritmo = 'cesar'
         elif escolha == '2':
+            log_blockchain.add_block("Algoritmo alterado para o de vigenere")
             algoritmo = 'vigenere'
         else:
+            log_blockchain.add_block("Opção Inválida")
             print("Opção inválida")
             return
         
         if self.comunicador.alterar_algoritmo_criptografia(algoritmo):
+            log = f"Algoritmo alterado para {algoritmo.upper()}"
             print(f"Algoritmo alterado para {algoritmo.upper()}")
+            log_blockchain.add_block(log)
         else:
             print("Falha ao alterar algoritmo")
     
@@ -722,10 +779,13 @@ class GestorPrincipal:
             opcao = input("Opção: ").strip()
             
             if opcao == '1':
+                log_blockchain.add_block("1.Listar utilizadores")
                 self.listar_utilizadores()
             elif opcao == '2':
+                log_blockchain.add_block("2. criar utilizadores")
                 self.criar_utilizador()
             elif opcao == '3':
+                log_blockchain.add_block("3. Remover utilizadores")
                 self.remover_utilizador()
             elif opcao == '4':
                 break
@@ -768,9 +828,12 @@ class GestorPrincipal:
             return
         
         if self.gestor_utilizadores.criar_utilizador(username, password, role):
-            print(f"Utilizador '{username}' criado com sucesso")
+            log = f"Utilizador '{username}' criado com sucesso"
+            print(log)
+            log_blockchain.add_block(log)
         else:
             print("Erro ao criar utilizador")
+            log_blockchain.add_block("Erro ao criar utilizador")
     
     def remover_utilizador(self):
         self.listar_utilizadores()
@@ -785,9 +848,12 @@ class GestorPrincipal:
         
         if confirmacao == 's':
             if self.gestor_utilizadores.remover_utilizador(username):
-                print(f"Utilizador '{username}' removido")
+                log = f"Utilizador '{username}' removido"
+                print(log)
+                log_blockchain.add_block(log)
             else:
                 print("Utilizador não encontrado")
+                log_blockchain.add_block("Utilizador não encontrado")
     
     def mostrar_estado_sistema(self):
         print("\n" + "-"*40)

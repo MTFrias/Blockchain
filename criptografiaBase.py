@@ -25,12 +25,12 @@ mensagem = "Mensagem Secreta!"
 deslocamento = 2
 
 # Cifrar
-cifrada = cifra_cesar_ex(mensagem, deslocamento)
-print("\nTexto cifrado final:", cifrada)
+#cifrada = cifra_cesar_ex(mensagem, deslocamento)
+#print("\nTexto cifrado final:", cifrada)
 
 # Decifrar
-decifrada = decifra_cesar_pf(cifrada, deslocamento)
-print("\nTexto decifrado final:", decifrada)
+#decifrada = decifra_cesar_pf(cifrada, deslocamento)
+#print("\nTexto decifrado final:", decifrada)
 
 '''
 Diffie-Hellman
@@ -61,9 +61,9 @@ chave_secreta_bob = (A ** b) % p
 # É garantido que ambas as contas vão dar exatamente o mesmo número! 
 
 # Ambas as chaves secretas devem ser iguais
-print(f"Chave secreta da Alice: {chave_secreta_alice}")
-print(f"Chave secreta do Bob:   {chave_secreta_bob}")
-print("\n\n")
+#print(f"Chave secreta da Alice: {chave_secreta_alice}")
+#print(f"Chave secreta do Bob:   {chave_secreta_bob}")
+#print("\n\n")
 
 '''
 Função de Hash
@@ -113,5 +113,5 @@ def simple_hash(text: str, bucket_size: int) -> int:
 mensagem_original = "Ola mundo"
 hash_resultado = hash(mensagem_original)
 
-print(f"Mensagem original: {mensagem_original}")
-print(f"Hash (mais simples...): {hash_resultado}")
+#print(f"Mensagem original: {mensagem_original}")
+#print(f"Hash (mais simples...): {hash_resultado}")

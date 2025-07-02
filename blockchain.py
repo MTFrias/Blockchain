@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 import time
+from datetime import datetime
 from criptografiaBase import simple_hash
 
 
@@ -30,14 +31,15 @@ class SimpleBlockchain:
             previous_hash = self.tail.hash
         
         # Calcular hash do novo bloco
-        data = f"1.0{previous_hash}{time.time()}{transactions}"
+        current_timestamp = time.time() # Usar o mesmo timestamp para o hash e para o bloco
+        data = f"1.0{previous_hash}{current_timestamp}{transactions}"
         block_hash = str(simple_hash(data, 1000))
         
         # Criar novo bloco
         new_block = Block(
             version="1.0",
             previous_hash=previous_hash,
-            timestamp=time.time(),
+            timestamp=current_timestamp,
             hash=block_hash,
             transactions=transactions
         )
@@ -53,22 +55,44 @@ class SimpleBlockchain:
             self.tail = new_block
         
         self.size += 1
-        print(f"Bloco adicionado: {transactions}")
+        # A mensagem no gestor já é suficiente, podemos remover esta para não poluir o output
+        # print(f"Bloco adicionado: {transactions}")
     
     def mostrar_blockchain(self):
-        """Mostra todos os blocos"""
+        """Mostra todos os detalhes de cada bloco na blockchain."""
         current = self.head
         i = 0
+        
+        if not current:
+            print("A blockchain está vazia.")
+            return
+
         while current:
-            print(f"\nBloco {i}:")
-            print(f"  Hash: {current.hash}")
+            # Converte o timestamp para um formato de data e hora legível
+            ts = datetime.fromtimestamp(current.timestamp).strftime('%Y-%m-%d %H:%M:%S')
+
+            print(f"Bloco {i}:")
+            print(f"  Versão: {current.version}")
+            print(f"  Timestamp: {ts}")
             print(f"  Transações: {current.transactions}")
+            print(f"  Hash: {current.hash}")
+            print(f"  Hash Anterior: {current.previous_hash}")
+            # Adiciona uma linha para separar visualmente os blocos
+            print("-" * 40) 
+            
             current = current.next_block
             i += 1
 
-
-# Teste simples
-blockchain = SimpleBlockchain()
-blockchain.add_block("Alice envia 10 para Bob")
-blockchain.add_block("Bob envia 5 para Charlie")
-blockchain.mostrar_blockchain()
+'''
+if __name__ == "__main__":
+    from datetime import datetime # Importar datetime para o teste
+    
+    blockchain = SimpleBlockchain()
+    blockchain.add_block("Alice envia 10 para Bob")
+    time.sleep(1) # Pequena pausa para ter timestamps diferentes
+    blockchain.add_block("Bob envia 5 para Charlie")
+    
+    print("\n--- ESTADO FINAL DA BLOCKCHAIN ---")
+    blockchain.mostrar_blockchain()
+    print(f"Tamanho total: {blockchain.size} blocos")
+'''

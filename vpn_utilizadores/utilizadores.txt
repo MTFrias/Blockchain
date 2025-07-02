@@ -1,0 +1,4 @@
+# Utilizadores VPN Server
+# username|password_hash|role|data_criacao
+
+admin|240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9|administrador|2025-07-02 22:21:32

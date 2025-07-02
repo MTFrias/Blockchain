@@ -1,0 +1,42 @@
+[22:21:35] VPN CLIENT: Chaves Diffie-Hellman estabelecidas
+AR
+[22:21:35] VPN CLIENT: Algoritmo ativo: CESAR
+es estabelecidas
+[22:28:55] VPN SERVER: Chaves estabelecidas - Algoritmo: CESAR
+[22:28:55] VPN CLIENT: Algoritmo ativo: CESAR
+[22:28:55] VPN SERVER: Cliente conectado e chaves estabelecidas
+[22:29:41] VPN SERVER: Chaves estabelecidas - Algoritmo: CESAR
+[22:29:41] VPN CLIENT: Algoritmo ativo: CESAR
+[22:29:41] VPN SERVER: Cliente conectado e chaves estabelecidas
+[22:32:41] VPN SERVER: Chaves estabelecidas - Algoritmo: CESAR
+[22:32:41] VPN CLIENT: Chaves Diffie-Hellman estabelecidas
+[22:32:41] VPN SERVER: Cliente conectado e chaves estabelecidas
+[22:32:41] VPN CLIENT: Algoritmo ativo: CESAR
+[22:33:55] VPN SERVER: Chaves estabelecidas - Algoritmo: CESAR
+[22:33:55] VPN CLIENT: Algoritmo ativo: CESAR
+es estabelecidas
+[22:36:28] VPN SERVER: Chaves estabelecidas - Algoritmo: CESAR
+[22:36:28] VPN CLIENT: Chaves Diffie-Hellman estabelecidas
+[22:36:28] VPN SERVER: Cliente conectado e chaves estabelecidas
+[22:36:28] VPN CLIENT: Algoritmo ativo: CESAR
+[22:59:10] VPN CLIENT: Chaves Diffie-Hellman estabelecidas
+AR
+[22:59:10] VPN CLIENT: Algoritmo ativo: CESAR
+es estabelecidas
+[23:02:11] VPN SERVER: Chaves estabelecidas - Algoritmo: CESAR
+[23:02:11] VPN CLIENT: Algoritmo ativo: CESAR
+[23:02:11] VPN SERVER: Cliente conectado e chaves estabelecidas
+[23:03:46] VPN SERVER: Chaves estabelecidas - Algoritmo: CESAR
+[23:03:46] VPN CLIENT: Algoritmo ativo: CESAR
+[23:03:46] VPN SERVER: Cliente conectado e chaves estabelecidas
+[23:04:23] VPN SERVER: Chaves estabelecidas - Algoritmo: CESAR
+[23:04:23] VPN CLIENT: Algoritmo ativo: CESAR
+[23:04:23] VPN SERVER: Cliente conectado e chaves estabelecidas
+[23:05:46] VPN CLIENT: Chaves Diffie-Hellman estabelecidas
+AR
+[23:05:46] VPN SERVER: Cliente conectado e chaves estabelecidas
+[23:05:46] VPN CLIENT: Algoritmo ativo: CESAR
+[23:24:14] VPN CLIENT: Chaves Diffie-Hellman estabelecidas
+AR
+[23:24:14] VPN SERVER: Cliente conectado e chaves estabelecidas
+[23:24:14] VPN CLIENT: Algoritmo ativo: CESAR
