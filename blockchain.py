@@ -1,4 +1,4 @@
-# Importações. Coisas que vamos precisar para a nossa geringonça funcionar.
+# Importações. Coisas que vamos precisar 
 from dataclasses import dataclass # Para criar classes de dados de forma fácil.
 from typing import Optional # Para dizer que uma variável pode ser "nada" (None).
 import time # Para trabalhar com tempo, tipo timestamps.
@@ -7,13 +7,12 @@ from criptografiaBase import simple_hash # A nossa função para criar hashes.
 
 
 @dataclass
-# A "receita" para fazer um bloco. Define a estrutura de cada bloco da corrente.
 class Block:
     version: str # Versão do bloco (ex: "1.0").
     previous_hash: str # O hash do bloco anterior, para criar a ligação.
     timestamp: float # Quando o bloco foi criado.
-    hash: str # O hash deste próprio bloco. A sua "impressão digital".
-    transactions: str # Os dados/transações que o bloco guarda (ex: "Zé enviou 5€ à Maria").
+    hash: str # O hash deste próprio bloco.
+    transactions: str # Os dados/transações que o bloco guarda 
     next_block: Optional['Block'] = None # Aponta para o bloco seguinte.
     previous_block: Optional['Block'] = None # Aponta para o bloco anterior.
 

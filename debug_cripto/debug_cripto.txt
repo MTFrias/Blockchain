@@ -40,3 +40,6 @@ AR
 AR
 [23:24:14] VPN SERVER: Cliente conectado e chaves estabelecidas
 [23:24:14] VPN CLIENT: Algoritmo ativo: CESAR
+[09:48:58] VPN SERVER: Chaves estabelecidas - Algoritmo: CESAR
+[09:48:58] VPN CLIENT: Algoritmo ativo: CESAR
+[09:48:58] VPN SERVER: Cliente conectado e chaves estabelecidas
